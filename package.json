@@ -13,7 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm build",
     "start": "node index.js",
-    "start-server": "node index.js"
+    "start:dev": "nodemon index.js"
   },
   "author": "Devulapalli_Satya",
   "license": "ISC",
