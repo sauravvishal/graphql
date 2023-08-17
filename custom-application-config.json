@@ -1,0 +1,8 @@
+{
+    "env": {
+        "production": {
+            "applicationId": "cllf6yq9l0004wh01sz7urtpw",
+            "url": "https://graphql-commerce-tool.vercel.app"
+        }
+    }
+}

@@ -1,7 +1,7 @@
 
 module.exports = {
-    entryPointUriPath: 'test',
+    entryPointUriPath: 'test1',
     name: "graphql-commerce-tool",
     description: "graphql-commerce-tool",
-    applicationId: "cllf51qcp000otp01lwuzwivg"
+    applicationId: "cllf6yq9l0004wh01sz7urtpw"
 };
