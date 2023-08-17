@@ -2,7 +2,6 @@ const { TestData } = require('./Data');
 const resolvers = {
   Query: {
     getAllData() {
-      console.log(TestData)
       return TestData;
     },
   },
