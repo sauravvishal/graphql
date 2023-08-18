@@ -17,7 +17,17 @@ class App {
                 typeDefs, 
                 resolvers,
                 introspection: true,
-                playground: true,
+                playground: {
+                    settings: {
+                        'editor.theme': 'light',
+                    },
+                    tabs: [
+                        {
+                            endpoint,
+                            query: defaultQuery,
+                        },
+                    ],
+                },
              });
             await server.start();
             server.applyMiddleware({ app, path: '/graphql' });
