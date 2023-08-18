@@ -13,7 +13,12 @@ class App {
         try {
             const app = express();
             app.use(cors());
-            const server = new ApolloServer({ typeDefs, resolvers });
+            const server = new ApolloServer({ 
+                typeDefs, 
+                resolvers,
+                introspection: true,
+                playground: true,
+             });
             await server.start();
             server.applyMiddleware({ app, path: '/graphql' });
 
