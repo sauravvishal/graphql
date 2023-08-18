@@ -1,24 +1,25 @@
-const express = require('express');
-const { createServer } = require('http');
+const { ApolloServer } = require("@apollo/server");
+const { startStandaloneServer } = require("@apollo/server/standalone");
 
-const { ApolloServer } = require('apollo-server-express');
+const { PORT } = require("./config/config");
 const { typeDefs } = require('./graphql/schema');
 const { resolvers } = require('./graphql/result');
-const { PORT } = require("./config/config");
 
 class App {
     async startServer() {
         try {
-            const app = express();
-            const server = new ApolloServer({ typeDefs, resolvers });
-            await server.start();
-            server.applyMiddleware({ app, path: '/graphql' });
-
-            const httpServer = createServer(app);
-
-            httpServer.listen(PORT, () => {
-                console.log(`Server is running on port ${PORT}`);
+            const server = new ApolloServer({
+                typeDefs,
+                resolvers,
+                introspection: true,
+                playground: true
             });
+
+            const { url } = await startStandaloneServer(server, {
+                listen: { port: PORT },
+            });
+
+            console.log(`Server runnig at: ${url}`);
         } catch (error) {
             console.log("Internal Server Error", error);
         }
