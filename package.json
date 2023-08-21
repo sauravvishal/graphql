@@ -19,7 +19,7 @@
     "start": "node index.js",
     "start:dev": "nodemon index.js"
   },
-  "author": "Devulapalli_Satya",
+  "author": "Saurav Vishal",
   "license": "ISC",
   "devDependencies": {
     "express": "^4.18.2"

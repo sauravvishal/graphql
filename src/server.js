@@ -17,17 +17,21 @@ class App {
     async startServer() {
         try {
             const app = express();
+
             app.use(cors());
+            
             const schema = makeExecutableSchema({
                 typeDefs: [typeDefs, customer],
                 resolvers: lodash.merge(resolvers, customerResolver)
-            })
+            });
 
             const server = new ApolloServer({
                 schema,
                 context: ({ req }) => ({ req })
             });
+
             await server.start();
+
             server.applyMiddleware({ app, path: '/graphql' });
 
             app.get("/", expressPlayground({ endpoint: "/graphql" }));
