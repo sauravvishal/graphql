@@ -1,9 +1,16 @@
 {
   "dependencies": {
+    "@commercetools/api-request-builder": "^6.0.0",
+    "@commercetools/sdk-client": "^3.0.0",
+    "@commercetools/sdk-middleware-auth": "^7.0.1",
+    "@commercetools/sdk-middleware-http": "^7.0.4",
+    "@graphql-tools/schema": "^10.0.0",
     "@vercel/node": "^2.15.9",
     "apollo-server-express": "^3.12.0",
     "express-graphql": "^0.12.0",
     "graphql-playground-middleware-express": "^1.7.23",
+    "lodash": "^4.17.21",
+    "node-fetch": "^2.6.13",
     "pnpm": "^8.6.12"
   },
   "name": "assignment",

@@ -1,10 +1,12 @@
 const { TestData } = require('../Data');
 const resolvers = {
   Query: {
-    getAllData() {
+    getAllData(_, __, contextValue) {
+      const { query } = contextValue.req.body;
       return TestData;
     },
   },
+
   Mutation: {
     createData(parent, args) {
       const newData = args;
@@ -15,14 +17,3 @@ const resolvers = {
 };
 
 module.exports = { resolvers };
-
-// module.exports = {
-//   getAllData() {
-//     return TestData;
-//   },
-//   createData(parent, args) {
-//     const newData = args;
-//     TestData.push(newData);
-//     return newData;
-//   }
-// }

@@ -1,5 +1,5 @@
 const { buildSchema } = require('graphql');
-const typeDefs = buildSchema(`
+const typeDefs = `
   type Data {
     Name: String!
     Age: Int!
@@ -10,6 +10,6 @@ const typeDefs = buildSchema(`
   type Mutation {
     createData(Name: String!, Age: Int!): Data!
   }
-`);
+`;
 
 module.exports = { typeDefs };

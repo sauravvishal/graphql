@@ -1,3 +1,9 @@
 module.exports = {
-    PORT: 3001
+    PORT: 3001,
+    DEV_PROJECT_KEY: "sauravvishal-training",
+    DEV_CLIENT_SECRET: "9RRV18X7pmy5B4wAmwQU9yfVFkAAcpY7",
+    DEV_CLIENT_ID: "TDauP2yJUDlbMHwlCwu9waxa",
+    DEV_AUTH_URL: "https://auth.us-central1.gcp.commercetools.com",
+    DEV_API_URL: "https://api.us-central1.gcp.commercetools.com",
+    DEV_SCOPES: "manage_project:sauravvishal-training"
 }
