@@ -2,7 +2,7 @@ const { buildSchema } = require('graphql');
 
 const typeDefs = `
   extend type Query {
-    queryCustomers: GetCustomersResp
+    customers: GetCustomersResp
   }
 
   type Address {

@@ -1,22 +1,30 @@
-const { createRequestBuilder } = require("@commercetools/api-request-builder");
 const { DEV_PROJECT_KEY, DEV_API_URL } = require("../../config/config");
-const { client } = require("../../client/client");
+const axios = require("axios");
 
-const commerceToolsApiUrl = `https://${DEV_API_URL}/${DEV_PROJECT_KEY}/graphql`;
+const commerceToolsApiUrl = `${DEV_API_URL}/${DEV_PROJECT_KEY}/graphql`;
 
 const resolvers = {
     Query: {
-        async queryCustomers() {
+        async customers(_, __, contextValue) {
             try {
-                const customerService = createRequestBuilder({ projectKey: DEV_PROJECT_KEY }).customers;
+                const { query } = contextValue.req.body;
+                const data = JSON.stringify({
+                    query: query,
+                    variables: {}
+                });
 
-                const createGetProjectRequest = {
-                    uri: customerService.build(),
-                    method: "GET",
+                const config = {
+                    method: 'post',
+                    url: commerceToolsApiUrl,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer uywwRk7eik5MIwK24hpDF_Y_wnrKuE7z'
+                    },
+                    data
                 };
+                const resp = (await axios(config)).data;
 
-                const data = await client.execute(createGetProjectRequest);
-                return data.body;
+                return resp.data.customers;
             } catch (error) {
                 console.log(error);
             }
