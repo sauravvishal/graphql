@@ -36,27 +36,25 @@ const resolvers = {
 
         async customer(_, args, contextValue) {
             try {
-                const { query } = contextValue.req.body;
-                // console.log({ args, query })
+                const { query, variables } = contextValue.req.body;
                 const accessToken = await getAccessToken();
-                console.log({accessToken})
-                // const data = JSON.stringify({
-                //     query: query,
-                //     variables: {}
-                // });
 
-                // const config = {
-                //     method: 'post',
-                //     url: commerceToolsApiUrl,
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         'Authorization': 'Bearer uywwRk7eik5MIwK24hpDF_Y_wnrKuE7z'
-                //     },
-                //     data
-                // };
-                // const resp = (await axios(config)).data;
+                const data = JSON.stringify({
+                    query: query,
+                    variables: Object.keys(variables).length ? variables : {}
+                });
 
-                // return resp.data.customers;
+                const config = {
+                    method: 'post',
+                    url: commerceToolsApiUrl,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + accessToken
+                    },
+                    data
+                };
+                const resp = (await axios(config)).data;
+                return resp.data.customer;
             } catch (error) {
                 console.log(error);
             }

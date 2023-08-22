@@ -19,10 +19,11 @@ class App {
     async startServer() {
         try {
             const remoteSchemaURL = `${DEV_API_URL}/${DEV_PROJECT_KEY}/graphql`;
+            
             const app = express();
 
             app.use(cors());
-            
+
             const accessToken = await getAccessToken();
 
             const remoteExecutor = buildHTTPExecutor({
@@ -35,15 +36,19 @@ class App {
             const subschema = {
                 schema: await schemaFromExecutor(remoteExecutor),
                 executor: remoteExecutor
-            }
+            };
+
+            const schema = makeExecutableSchema({
+                typeDefs: subschema.schema,
+                resolvers: lodash.merge(customerResolver)
+            });
 
             const server = new ApolloServer({
-                schema: subschema.schema,
-                resolvers: lodash.merge(resolvers, customerResolver),
+                schema,
                 context: ({ req }) => ({ req }),
                 introspection: true
             });
-            
+
             // const schema = makeExecutableSchema({
             //     typeDefs: [typeDefs, customer],
             //     resolvers: lodash.merge(resolvers, customerResolver)
