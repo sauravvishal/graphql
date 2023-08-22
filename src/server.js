@@ -1,19 +1,16 @@
-const express = require('express');
-const cors = require('cors');
 const { createServer } = require('http');
+const cors = require('cors');
+const lodash = require('lodash');
+const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const { default: expressPlayground } = require('graphql-playground-middleware-express');
-const lodash = require('lodash');
 const { makeExecutableSchema } = require("@graphql-tools/schema");
+const { buildHTTPExecutor } = require("@graphql-tools/executor-http");
+const { schemaFromExecutor } = require("@graphql-tools/wrap");
 
-const { typeDefs } = require('./graphql/schemas/schema');
-const { resolvers } = require('./graphql/resolvers/result');
-const { typeDefs: customer } = require("./graphql/schemas/customer");
 const { resolvers: customerResolver } = require("./graphql/resolvers/customer");
 const { PORT, DEV_PROJECT_KEY, DEV_API_URL } = require("./config/config");
 const { getAccessToken } = require("./middleware/token");
-const { buildHTTPExecutor } = require("@graphql-tools/executor-http");
-const { schemaFromExecutor } = require("@graphql-tools/wrap");
 
 class App {
     async startServer() {
@@ -48,16 +45,6 @@ class App {
                 context: ({ req }) => ({ req }),
                 introspection: true
             });
-
-            // const schema = makeExecutableSchema({
-            //     typeDefs: [typeDefs, customer],
-            //     resolvers: lodash.merge(resolvers, customerResolver)
-            // });
-
-            // const server = new ApolloServer({
-            //     schema,
-            //     context: ({ req }) => ({ req })
-            // });
 
             await server.start();
 

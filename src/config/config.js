@@ -5,5 +5,7 @@ module.exports = {
     DEV_CLIENT_ID: "TDauP2yJUDlbMHwlCwu9waxa",
     DEV_AUTH_URL: "https://auth.us-central1.gcp.commercetools.com",
     DEV_API_URL: "https://api.us-central1.gcp.commercetools.com",
-    DEV_SCOPES: "manage_project:sauravvishal-training"
+    DEV_SCOPES: "manage_project:sauravvishal-training",
+    DEV_CUSTOMER_EMAIL: "testvishal@example.com",
+    DEV_CUSTOMER_PASSWORD: "abcd1234"
 }
