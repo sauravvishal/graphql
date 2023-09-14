@@ -4,8 +4,8 @@ const resolvers = {
     Query: {
         async products(_, args, contextValue) {
             try {
-                const { query } = contextValue.req.body;
-                const data = await getDataFromCommerceTool({ query });
+                const { query, variables } = contextValue.req.body;
+                const data = await getDataFromCommerceTool({ query, variables });
                 return data.products;
             } catch (error) {
                 console.log(error);
@@ -24,8 +24,8 @@ const resolvers = {
 
         async productTypes(_, __, contextValue) {
             try {
-                const { query } = contextValue.req.body;
-                const data = await getDataFromCommerceTool({ query });
+                const { query, variables } = contextValue.req.body;
+                const data = await getDataFromCommerceTool({ query, variables });
                 return data.productTypes;
             } catch (error) {
                 console.log(error);
