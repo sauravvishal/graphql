@@ -11,6 +11,7 @@ const { schemaFromExecutor } = require("@graphql-tools/wrap");
 const { resolvers: customerResolver } = require("./graphql/resolvers/customer");
 const { resolvers: productResolver } = require("./graphql/resolvers/product");
 const { resolvers: orderResolver } = require("./graphql/resolvers/order");
+const { resolvers: categoryResolver } = require("./graphql/resolvers/category");
 
 const { PORT, DEV_PROJECT_KEY, DEV_API_URL } = require("./config/config");
 const { getAccessToken } = require("./middleware/token");
@@ -40,7 +41,7 @@ class App {
 
             const schema = makeExecutableSchema({
                 typeDefs: subschema.schema,
-                resolvers: lodash.merge(customerResolver, productResolver, orderResolver)
+                resolvers: lodash.merge(customerResolver, productResolver, orderResolver, categoryResolver)
             });
 
             const server = new ApolloServer({
