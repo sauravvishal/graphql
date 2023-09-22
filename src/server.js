@@ -12,6 +12,11 @@ const { resolvers: customerResolver } = require("./graphql/resolvers/customer");
 const { resolvers: productResolver } = require("./graphql/resolvers/product");
 const { resolvers: orderResolver } = require("./graphql/resolvers/order");
 const { resolvers: categoryResolver } = require("./graphql/resolvers/category");
+const { resolvers: cartResolver } = require("./graphql/resolvers/cart");
+const { resolvers: channelResolver } = require("./graphql/resolvers/channel");
+const { resolvers: customResolver } = require("./graphql/resolvers/customObject");
+const { resolvers: discountResolver } = require("./graphql/resolvers/discount");
+const { resolvers: paymentResolver } = require("./graphql/resolvers/payment");
 
 const { PORT, DEV_PROJECT_KEY, DEV_API_URL } = require("./config/config");
 const { getAccessToken } = require("./middleware/token");
@@ -20,7 +25,7 @@ class App {
     async startServer() {
         try {
             const remoteSchemaURL = `${DEV_API_URL}/${DEV_PROJECT_KEY}/graphql`;
-            
+
             const app = express();
 
             app.use(cors());
@@ -41,7 +46,17 @@ class App {
 
             const schema = makeExecutableSchema({
                 typeDefs: subschema.schema,
-                resolvers: lodash.merge(customerResolver, productResolver, orderResolver, categoryResolver)
+                resolvers: lodash.merge(
+                    customerResolver,
+                    productResolver,
+                    orderResolver,
+                    categoryResolver,
+                    cartResolver,
+                    channelResolver,
+                    customResolver,
+                    discountResolver,
+                    paymentResolver
+                )
             });
 
             const server = new ApolloServer({

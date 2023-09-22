@@ -2,58 +2,46 @@ const { getDataFromCommerceTool } = require('../../services/resolver.service');
 
 const resolvers = {
     Query: {
-        async customers(_, __, contextValue) {
+        async discountCodes(_, __, contextValue) {
             try {
                 const { query, variables } = contextValue.req.body;
                 const data = await getDataFromCommerceTool({ query, variables });
-                return data.customers;
+                return data.discountCodes;
             } catch (error) {
                 console.log(error);
             }
         },
 
-        async customer(_, args, contextValue) {
+        async discountCode(_, args, contextValue) {
             try {
                 const { query, variables } = contextValue.req.body;
                 const data = await getDataFromCommerceTool({ query, variables });
-                return data.customer;
+                return data.discountCode;
             } catch (error) {
                 console.log(error);
             }
         },
 
-        async customerGroups(_, __, contextValue) {
+        async productDiscounts(_, __, contextValue) {
             try {
                 const { query, variables } = contextValue.req.body;
                 const data = await getDataFromCommerceTool({ query, variables });
-                return data.customerGroups;
+                return data.productDiscounts;
             } catch (error) {
                 console.log(error);
             }
         },
 
-        async customerGroup(_, args, contextValue) {
+        async productDiscount(_, args, contextValue) {
             try {
                 const { query, variables } = contextValue.req.body;
                 const data = await getDataFromCommerceTool({ query, variables });
-                return data.customerGroup;
+                return data.productDiscount;
             } catch (error) {
                 console.log(error);
             }
         },
     },
-
-    Mutation: {
-        async updateCustomer(_, args, contextValue) {
-            try {
-                const { query, variables } = contextValue.req.body;
-                const data = await getDataFromCommerceTool({ query, variables });
-                return data.updateCustomer;
-            } catch (error) {
-                console.log(error);
-            }
-        },
-    }
 };
 
 module.exports = { resolvers };

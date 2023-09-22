@@ -41,6 +41,26 @@ const resolvers = {
                 console.log(error);
             }
         },
+
+        async productSelections(_, __, contextValue) {
+            try {
+                const { query, variables } = contextValue.req.body;
+                const data = await getDataFromCommerceTool({ query, variables });
+                return data.productSelections;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async productSelection(_, __, contextValue) {
+            try {
+                const { query, variables } = contextValue.req.body;
+                const data = await getDataFromCommerceTool({ query, variables });
+                return data.productSelection;
+            } catch (error) {
+                console.log(error);
+            }
+        },
     },
 
     Mutation: {
