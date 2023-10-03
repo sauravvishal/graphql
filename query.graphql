@@ -1,0 +1,936 @@
+                                        Customer
+------------------------------------------------------------------------------------------
+query getAllCustomers($limit: Int, $offset: Int) {
+  customers(limit: $limit, offset: $offset) {
+    offset
+    total
+    count
+    results {
+      id
+      key
+      email
+      version
+      customerNumber
+      addresses {
+        country
+      }
+      firstName
+      middleName
+      lastName
+      dateOfBirth
+      customerGroup {
+        name
+      }
+    }
+  }
+}
+
+{
+  "limit":10,
+  "offset": 0
+}
+
+-----------------------------------------------------------------
+
+query customer($id:String) {
+  customer(id: $id) {
+    id
+    key
+    email
+    customerNumber
+    addresses {
+      country
+    }
+    firstName
+    middleName
+    lastName
+    dateOfBirth
+    customerGroup {
+      name
+    }
+  }
+}
+
+{
+    "id": "38c18452-1a6a-42f5-b20b-951335ee74b2"
+}
+
+-----------------------------------------------------------------
+
+
+query customerGroups($limit: Int, $offset: Int, $locale: Locale) {
+	customerGroups(limit: $limit, offset: $offset) {
+ 		offset
+    total
+    count
+    results {
+      id
+      key
+			name
+      version
+      custom {
+        type {
+          name(locale: $locale)
+        }
+      }
+      createdAt
+    }
+  }
+}
+
+{
+  "limit":10,
+  "offset": 0,
+  "locale": "en"
+}
+
+-----------------------------------------------------------------
+
+query customerGroup($id:String, $locale: Locale) {
+	customerGroup(id:$id) {
+      id
+      key
+			name
+      version
+      custom {
+        type {
+          name(locale: $locale)
+        }
+      }
+      createdAt
+    }
+}
+
+{
+  "id": "d19d8d7f-2805-45ee-8473-9e5be11b3df3",
+  "locale": "en"
+}
+
+------------------------------------------------------------------------------------------
+
+
+
+                                        Product Types
+------------------------------------------------------------------------------------------
+
+{
+  productTypes {
+    exists
+    offset
+    count
+    total
+    results {
+      key
+      name
+      description
+      id
+      version
+      createdBy {
+        clientId
+      }
+    }
+  }
+}
+-----------------------------------------------------------------
+
+
+                        
+                                        Product
+------------------------------------------------------------------------------------------
+
+query getAllProducts($limit: Int, $offset:Int, $locale: Locale){
+  products(limit: $limit, offset: $offset) {
+    offset
+    count
+    total
+    exists
+    results {
+      id
+      key
+      version
+      masterData {
+        current {
+          name(locale:$locale)
+          masterVariant {
+            images {
+              url
+            }
+          }
+        }
+      }
+      productType {
+        name
+        id
+        key
+        version
+      }
+      priceMode
+      taxCategory {
+        key
+        id
+        name
+      }
+    }
+  }
+}
+
+
+{
+    "limit": 10,
+    "offset": 5,
+    "locale": "en"
+}
+
+
+-----------------------------------------------------------------
+
+query getProductByID($id: String, $locale: Locale){
+  product(id: $id) {
+     id
+    key
+    version
+    productType {
+      key
+      name
+    }
+    masterData {
+      current {
+        name(locale: $locale)
+        masterVariant {
+          images {
+            url
+          }
+        }
+      }
+    }
+    skus
+    createdAt
+    lastModifiedAt
+    state {
+      key
+      name
+    }
+    taxCategory {
+      key
+      name
+    }
+    createdBy {
+       clientId
+    }
+    priceMode
+  }
+}
+
+{
+    "id": "38c18452-1a6a-42f5-b20b-951335ee74b2",
+    "locale": "en"
+}
+
+------------------------------------------------------------------------------------------
+
+
+
+                                        Order
+------------------------------------------------------------------------------------------
+query orders($limit: Int, $offset: Int, $sort:[String!], $where: String,$locale:Locale){
+    orders(limit: $limit, offset:$offset, sort: $sort, where: $where) {
+      offset
+      count
+      total
+      exists
+      results {
+        id
+        orderNumber
+        createdAt
+        customerId
+        customer{
+          email
+        }
+        lineItems {
+          key
+          name(locale: $locale)
+          price {
+            value {
+              type
+              currencyCode
+              centAmount
+              fractionDigits
+            }
+          }
+          state {
+            quantity
+            state {
+              name(locale: $locale)
+              key
+            }
+          }
+        }
+      }
+    }
+}
+
+{
+  "limit":1,
+  "offset": 0,
+  "sort": ["createdAt desc"],
+  "where": "customerId=\"38c18452-1a6a-42f5-b20b-951335ee74b2\"",
+  "locale": "en"
+}
+
+
+-----------------------------------------------------------------
+
+query order($id:String) {
+  order(id : $id) {
+    id
+    customer {
+      id
+      customerNumber
+      email
+      addresses {
+        streetName
+        streetNumber
+        postalCode
+        city
+        region
+        state
+        country
+      }
+      firstName
+      lastName
+    }
+    totalPrice {
+      type
+      currencyCode
+      centAmount
+      fractionDigits
+    }
+    orderNumber
+    orderState
+    lineItems {
+      id
+      key
+      name(locale: "en")
+      state {
+        quantity
+        state {
+          name(locale: "en")
+        }
+      }
+      variant {
+        price(currency: "EUR") {
+          value {
+              type
+      				currencyCode
+      				centAmount
+      				fractionDigits
+          }
+        }
+        images {
+          url
+        }
+      }
+    }
+    taxedPrice {
+      totalNet {
+        type
+      	currencyCode
+      	centAmount
+      	fractionDigits
+      }
+      totalGross {
+        type
+      	currencyCode
+      	centAmount
+      	fractionDigits
+      }
+      taxPortions {
+        rate
+        amount {
+          type
+      		currencyCode
+      		centAmount
+      		fractionDigits
+        }
+        name
+      }
+    }
+  }
+}
+
+{
+	"id": "70ce2581-73bb-41a1-8b87-c4e55e42e829"
+}
+
+------------------------------------------------------------------------------------------
+
+
+
+                                        Category
+------------------------------------------------------------------------------------------
+
+query categories($limit: Int, $offset: Int){
+  categories(limit: $limit, offset: $offset) {
+    exists
+    offset
+    count
+    total
+    results {
+      key
+      name(locale:"en")
+      description(locale:"en")
+      id
+      version
+      createdBy {
+        clientId
+      }
+      slug(locale:"en")
+    }
+  }
+}
+
+{
+  "limit":10,
+  "offset": 0
+}
+
+-----------------------------------------------------------------
+
+query category($id:String){
+  category(id: $id) {
+      key
+      name(locale:"en")
+      description(locale:"en")
+      id
+      version
+      createdBy {
+        clientId
+      }
+      slug(locale:"en")
+  }
+}
+
+{
+	"id": "31766214-e64b-42e4-ba66-bf42a8133557"
+}
+
+------------------------------------------------------------------------------------------
+
+
+
+                                        Cart
+------------------------------------------------------------------------------------------
+
+query getAllCarts($limit: Int, $offset: Int) {
+  carts(limit: $limit, offset: $offset) {
+    offset
+    count
+    total
+    exists
+    results {
+      id
+      key
+      version
+      createdAt
+      customerId
+      customerEmail
+      totalPrice {
+        type
+        currencyCode
+        centAmount
+        fractionDigits
+      }
+      lineItems {
+        name(locale: "en")
+      }
+    }
+  }
+}
+
+{
+  "limit":10,
+  "offset": 0
+}
+
+-----------------------------------------------------------------
+
+query cart($id:String!) {
+  cart(id: $id) {
+ 		id
+    key
+    version
+    createdAt
+    customerId
+    customerEmail
+    totalPrice {
+      type
+      currencyCode
+      centAmount
+      fractionDigits
+    }
+    lineItems {
+      name(locale: "en")
+    }
+  }
+}
+
+{
+	"id": "46a5ad2f-24ef-4c4f-8c6c-91f72f33c822"
+}
+
+-----------------------------------------------------------------
+
+query cartDiscounts($limit: Int, $offset: Int, $locale:Locale) {
+	cartDiscounts(limit: $limit, offset: $offset) {
+    offset
+    count
+    total
+    exists
+    results {
+      id
+      key
+      version
+      name(locale: $locale)
+      stackingMode
+      isActive
+      requiresDiscountCode
+      sortOrder
+      stores {
+        name(locale: $locale)
+        key
+				id
+        countries {
+          code
+        }
+      }
+      validFrom
+      validUntil
+    }
+  }
+}
+
+{
+  "limit":10,
+  "offset": 0,
+  "locale": "en"
+}
+
+-----------------------------------------------------------------
+
+query cartDiscount($id:String!, $locale: Locale) {
+	cartDiscount(id: $id) {
+    	id
+      key
+      version
+      name(locale: $locale)
+      stackingMode
+      isActive
+      requiresDiscountCode
+      sortOrder
+      stores {
+        name(locale: $locale)
+        key
+				id
+        countries {
+          code
+        }
+      }
+      validFrom
+      validUntil
+  }
+}
+
+{
+  "id": "d07c4d3e-b447-43b3-a120-231bfcf7de9d",
+  "locale": "en"
+}
+
+------------------------------------------------------------------------------------------
+
+
+
+                                        Channel
+------------------------------------------------------------------------------------------
+
+query channels($limit: Int, $offset: Int,$locale:Locale) {
+	channels(limit: $limit, offset: $offset) {
+    offset
+    count
+    total
+    exists
+    results {
+      id
+      version
+      key
+      roles
+      name(locale: $locale)
+      nameAllLocales {
+        locale
+        value
+      }
+      description(locale: $locale)
+      roles
+			address {
+        streetName
+        streetNumber
+        postalCode
+        city
+        country
+      }
+    }
+  }
+}
+
+{
+  "limit":10,
+  "offset": 0,
+  "locale": "en"
+}
+
+-----------------------------------------------------------------
+
+query channel($id:String!, $locale: Locale) {
+	channel(id: $id) {
+  id
+      version
+      key
+      roles
+      name(locale: $locale)
+      nameAllLocales {
+        locale
+        value
+      }
+      description(locale: $locale)
+      roles
+			address {
+        streetName
+        streetNumber
+        postalCode
+        city
+        country
+      }
+  }
+}
+
+{
+  "id": "ce1e41fd-90a9-474d-a124-48df3add977f",
+  "locale": "en"
+}
+
+------------------------------------------------------------------------------------------
+
+
+
+                                        Custom Objects
+------------------------------------------------------------------------------------------
+
+query customObjects($limit: Int, $offset: Int, $container: String!) {
+	customObjects(limit: $limit, offset: $offset, container: $container) {
+    exists
+    offset
+    count
+    total
+    results {
+    	id
+      key
+      version
+      value
+      createdAt
+    }
+  }
+}
+
+{
+  "limit":10,
+  "offset": 0,
+  "container": "compatibility-info"
+}
+
+-----------------------------------------------------------------
+
+query customObject($id: String!) {
+	customObject(id:$id) {
+    	id
+      key
+      version
+      value
+      createdAt
+  }
+}
+
+{
+	"id": "0d204e39-d591-4261-a7d0-c05bd2ff2021"
+}
+
+------------------------------------------------------------------------------------------
+
+
+
+                                    Discount Codes
+------------------------------------------------------------------------------------------
+
+query discountCodes($limit: Int, $offset: Int, $locale: Locale!) {
+	discountCodes(limit: $limit, offset: $offset) {
+    exists
+    offset
+    count
+    total
+    results {
+      id
+      version
+      isActive
+      code
+      validFrom
+      validUntil
+      maxApplications
+      maxApplicationsPerCustomer
+      cartPredicate
+      applicationVersion
+      groups
+      description(locale: $locale)
+      createdAt
+      applicationCount
+      name(locale: $locale)
+      cartDiscounts {
+        key
+        isActive
+        sortOrder
+        validFrom
+        validUntil
+        name(locale: $locale)
+        stores {
+          name(locale: $locale)
+          countries {
+            code
+          }
+        }
+      }
+    }
+  }
+}
+
+{
+  "limit":10,
+  "offset": 0,
+  "locale": "en"
+}
+
+-----------------------------------------------------------------
+
+query discountCode($id: String!, $locale: Locale!) {
+	discountCode(id:$id) {
+    	id
+      version
+      isActive
+      code
+      validFrom
+      validUntil
+      maxApplications
+      maxApplicationsPerCustomer
+      cartPredicate
+      applicationVersion
+      groups
+      description(locale: $locale)
+      createdAt
+      applicationCount
+      name(locale: $locale)
+      cartDiscounts {
+        key
+        isActive
+        sortOrder
+        validFrom
+        validUntil
+        name(locale: $locale)
+        stores {
+          name(locale: $locale)
+          countries {
+            code
+          }
+        }
+      }
+  }
+}
+
+{
+  "id": "ea3427bc-9e35-4dee-b1af-f6a85c6364b0",
+  "locale": "en"
+}
+
+------------------------------------------------------------------------------------------
+
+
+
+                                    Payments
+------------------------------------------------------------------------------------------
+
+
+query payments($limit: Int, $offset: Int) {
+  payments(limit: $limit, offset: $offset) {
+    exists
+    offset
+    count
+    total
+    results {
+      id
+      key
+      version
+      interfaceId
+      amountPlanned {
+        type
+        currencyCode
+        centAmount
+        fractionDigits
+      }
+      paymentMethodInfo {
+        method
+        name
+        paymentInterface
+      }
+      paymentStatus {
+        interfaceCode
+        state {
+          key
+        }
+        interfaceText
+      }
+      transactions {
+        id
+        timestamp
+        type
+        amount {
+          type
+          currencyCode
+          centAmount
+          fractionDigits
+        }
+        interactionId
+        state
+      }
+      
+      customer {
+        id
+        key
+        email
+        firstName
+        lastName
+        middleName
+      }
+    }
+  }
+}
+
+{
+  "limit":10,
+  "offset": 0
+}
+
+-----------------------------------------------------------------
+
+query payment($id: String!) {
+  payment(id: $id) {
+      id
+      key
+      version
+      interfaceId
+      amountPlanned {
+        type
+        currencyCode
+        centAmount
+        fractionDigits
+      }
+      paymentMethodInfo {
+        method
+        name
+        paymentInterface
+      }
+      paymentStatus {
+        interfaceCode
+        state {
+          key
+        }
+        interfaceText
+      }
+      transactions {
+        id
+        timestamp
+        type
+        amount {
+          type
+          currencyCode
+          centAmount
+          fractionDigits
+        }
+        interactionId
+        state
+      }
+      
+      customer {
+        id
+        key
+        email
+        firstName
+        lastName
+        middleName
+      }
+  }
+}
+
+{
+  "id": "8ee39167-8ccc-47bb-b766-0367faf28004"
+}
+
+------------------------------------------------------------------------------------------
+
+
+                                    Product Discounts
+------------------------------------------------------------------------------------------
+
+query productDiscounts($limit: Int, $offset: Int) {
+  productDiscounts(limit: $limit, offset: $offset) {
+    exists
+    offset
+    count
+    total
+    results {
+      id
+    }
+  }
+}
+
+{
+  "limit":10,
+  "offset": 0
+}
+
+-----------------------------------------------------------------
+
+query productDiscount($id: String!) {
+  productDiscount(id: $id) {
+    id
+  }
+}
+
+{
+  "id": "8ee39167-8ccc-47bb-b766-0367faf28004"
+}
+
+
+                                Product Selection
+------------------------------------------------------------------------------------------
+
+query productDiscounts($limit: Int, $offset: Int) {
+  productDiscounts(limit: $limit, offset: $offset) {
+    exists
+    offset
+    count
+    total
+    results {
+      id
+    }
+  }
+}
+
+{
+  "limit":10,
+  "offset": 0
+}
